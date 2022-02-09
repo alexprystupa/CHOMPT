@@ -1,0 +1,17 @@
+users = int(input('How many users do you have: '))
+
+    for i in range(1, users + 1):
+        profile_var_name = ("Profile" + str(i))
+        first_name = input('What is your first name?: ')
+        last_name = input('What is your last name?: ')
+        email_address = input('What is your email address?: ')
+        phone_number = input('What is your phone number?: ')
+        birthday = input('What is your birthday?: ')
+        globals()[profile_var_name] = profile.Profile(first_name, last_name, email_address, phone_number, birthday)
+        #exec("%s = %d" % (profile_var_name, profile.Profile(first_name, last_name, email_address, phone_number, birthday)))
+        #globals()[profile_var_name] = 2020
+        #print(Profile1.first_name)
+
+    print(Profile1.last_name)
+
+
