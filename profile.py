@@ -1,7 +1,12 @@
+from datetime import date
+
+
 # Each Profile class instance represents an individual user. Must create a Profile in order to use the app.
 class Profile:
     # Friends list
     friends = []
+    # To keep records of answers from all previous quizzes this user has taken
+    old_quizzes = {}
 
     # Required fields to create a Profile (so far, update as needed. Think sign-up screen):
     #   - First name
@@ -22,16 +27,14 @@ class Profile:
         *** Will have to modify the return dictionary to allow for multiple prompts. ***
         *** Nested dictionary probably: {user: {prompt: answer}} ***
         :param quiz: list of prompts for the user to answer.
-        :return: dictionary with the user as the key and answers as the values.
+        :return: Nested dictionary - {user: {prompt: answer}}
         """
         user_answers = {}
         p_c = quiz.prompts_choices
-        prompts = quiz.prompts_choices.keys()
-        choices = quiz.prompts_choices.values()
 
         # initialize empty dict in order to just be able to update later.
-        user_answers[self] = {}
-
+        # user_answers[self] = {}
+        self.old_quizzes[date.today()] = {}
         for key in p_c:
             # Print the prompt
             print(key)
@@ -39,7 +42,10 @@ class Profile:
             print(p_c[key])
             answers = input('Type in your choices separating each choice by a single space: ')
             list_of_answers = answers.split()
-            user_answers[self].update({key: list_of_answers})
+            # user_answers[self].update({key: list_of_answers})
+            user_answers.update({key: list_of_answers})
+            # Record this quiz
+            self.old_quizzes[date.today()].update({key: list_of_answers})
 
         return user_answers
 

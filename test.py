@@ -16,21 +16,36 @@ def main():
     lit_squad.party_members.append(alex)
     lit_squad.party_members.append(aedan)
 
+    '''
     q = quiz.Quiz("What's the occasion today?", 'What cuisine are you thinking for today?',
                   'How big is your party?',
                   ['Take-out', 'Dinner with friends', 'Anniversary', 'Dinner with the fam'],
                   ['Chinese', 'Mexican', 'Italian', 'Thai', 'Mediterranean', 'Middle Eastern', 'American', 'Pub Grub'],
                   [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    '''
 
-    party_answers = lit_squad.distribute_quiz(q)
+    q = quiz.Quiz({"What's the occasion today?": ['Take-out', 'Dinner with friends', 'Anniversary',
+                                                  'Dinner with the fam'],
+                   'What cuisine are you thinking for today?': ['Chinese', 'Mexican', 'Italian', 'Thai',
+                                                                'Mediterranean', 'Middle Eastern', 'American',
+                                                                'Pub Grub'],
+                   'How big is your party?': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]})
+
+    party_decisions = lit_squad.distribute_quiz(q)
+    prompts = [*party_decisions]
+    print(f'The occasion today is {party_decisions[prompts[0]]}')
+    print(f'The cuisine for today will be {party_decisions[prompts[1]]}')
+    print(f'There will be {party_decisions[prompts[2]]} guests')
+    '''
     common_answers = lit_squad.items_in_common(party_answers, q)
     max_answer = lit_squad.find_max_items(common_answers)
     preferred_answer = lit_squad.find_favorite_items(common_answers, max_answer, q)
     prompts = [*preferred_answer]
+    '''
 
-    print(f'The occasion today is {preferred_answer[prompts[0]]}')
-    print(f'The cuisine for today will be {preferred_answer[prompts[1]]}')
-    print(f'There will be {preferred_answer[prompts[2]]} guests')
+    #print(f'The occasion today is {preferred_answer[prompts[0]]}')
+    #print(f'The cuisine for today will be {preferred_answer[prompts[1]]}')
+    #print(f'There will be {preferred_answer[prompts[2]]} guests')
 
 
 if __name__ == '__main__':
