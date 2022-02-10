@@ -12,55 +12,101 @@ class Party:
 
     def distribute_quiz(self, quiz):
         """
-        Allow each user in the party to take the quiz and then return the quiz with each user's answers.
-        :param quiz: Quiz with questions to determine which restaurant to suggest.
+        Allow each user in the party to take the quiz and then return the quiz with each users's answers.
+        :param quiz: Quiz with prompts to determine which restaurant to suggest.
         :return: Quiz dictionary with the answers from each user.
         """
         group_answers = {}
 
-        for user in self.party_members:
-            user_answers = user.take_quiz(quiz)
-            group_answers.update(user_answers)
+        for profile in self.party_members:
+            profile_answers = profile.take_quiz(quiz)
+            group_answers.update(profile_answers)
 
         return group_answers
 
-    def items_in_common(self, group_answers):
+    def items_in_common(self, group_answers, quiz):
         """
         :param group_answers: Dictionary with each users' answers
-        :return: Dictionary with the counts of each answer from all users
+        :param quiz: Quiz that was given to the party
+        :return: Dictionary with the counts of each answer for each prompt from all users
         """
-        full_items_list = []
+        prompts = [*quiz.prompts_choices]
+
+        prompt1_answers = []
+        prompt2_answers = []
+        prompt3_answers = []
+
+        # Counter to keep track of which prompt the loop is on.
+        # Should be okay to be hardcoded because we'll have a fixed number of prompts
+        # If needs to be dynamic we could definitely find a way eventually...
+        counter = 1
         for user in group_answers:
-            for item in group_answers[user]:
-                full_items_list.append(item)
+            for prompt in group_answers[user]:
+                for answer in group_answers[user][prompt]:
+                    if counter == 1:
+                        prompt1_answers.append(answer)
+                    elif counter == 2:
+                        prompt2_answers.append(answer)
+                    else:
+                        prompt3_answers.append(answer)
+                counter += 1
+            counter = 1
 
-        items_count_dict = dict(Counter(full_items_list).items())
+        prompt1_answer_cnt = dict(Counter(prompt1_answers).items())
+        prompt2_answer_cnt = dict(Counter(prompt2_answers).items())
+        prompt3_answer_cnt = dict(Counter(prompt3_answers).items())
 
-        return items_count_dict
+        prompts_dict = {prompts[0]: prompt1_answer_cnt, prompts[1]: prompt2_answer_cnt, prompts[2]: prompt3_answer_cnt}
 
-    def find_max_items(self, items_dict):
+        return prompts_dict
+
+    def find_max_items(self, prompts_dict):
         """
-        :param items_dict: Dictionary with the counts of each answer
-        :return: integer of the maximum number of occurrences of an answer
+        :param prompts_dict: Dictionary with the counts of each answer to each prompt
+        :return: dictionary with the prompts as the keys and
+                the maximum number of occurrences for that prompt as the values
         """
-        max_item_count = 0
+        max_answer_count = 0
+        prompts_max_answer = {}
+        for prompt in prompts_dict:
+            for answer in prompts_dict[prompt]:
+                if prompts_dict[prompt][answer] > max_answer_count:
+                    max_answer_count = prompts_dict[prompt][answer]
+            prompts_max_answer[prompt] = max_answer_count
+            max_answer_count = 0
 
-        for item in items_dict:
-            if items_dict[item] > max_item_count:
-                max_item_count = items_dict[item]
+        return prompts_max_answer
 
-        return max_item_count
-
-    def find_favorite_items(self, items_dict, max_item):
+    def find_favorite_items(self, prompts_dict, prompts_max_answer, quiz):
         """
-        :param items_dict: Dictionary from items_in_common() function
-        :param max_item: integer of the maximum number of occurrences
-        of an item from find_max_items() function
-        :return: List of most preferred items
+        :param prompts_dict: Dictionary from items_in_common() function
+        :param prompts_max_answer: dictionary of the maximum number of occurrences
+        of an answer for each prompt from find_max_items() function
+        :param quiz: Quiz that was given to the party
+        :return: Dictionary with prompts as the keys and the decisions for each prompt as the values
         """
-        most_common_items = []
-        for item in items_dict:
-            if items_dict[item] == max_item:
-                most_common_items.append(item)
+        total_prompt_decisions = {}
+        prompt1_decisions = []
+        prompt2_decisions = []
+        prompt3_decisions = []
 
-        return most_common_items
+        prompts = [*quiz.prompts_choices]
+
+        # Counter to keep track of prompt
+        counter = 1
+        for prompt in prompts_dict:
+            for answer in prompts_dict[prompt]:
+                if prompts_dict[prompt][answer] == prompts_max_answer[prompt]:
+                    if counter == 1:
+                        prompt1_decisions.append(answer)
+                    elif counter == 2:
+                        prompt2_decisions.append(answer)
+                    else:
+                        prompt3_decisions.append(answer)
+            counter += 1
+
+        total_prompt_decisions[prompts[0]] = prompt1_decisions
+        total_prompt_decisions[prompts[1]] = prompt2_decisions
+        total_prompt_decisions[prompts[2]] = prompt3_decisions
+
+        return total_prompt_decisions

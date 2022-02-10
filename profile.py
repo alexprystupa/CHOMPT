@@ -18,17 +18,28 @@ class Profile:
 
     def take_quiz(self, quiz):
         """
-        Take in a quiz as a list of questions and allow the user to answer the questions.
-        *** Will have to modify the return dictionary to allow for multiple questions. ***
-        *** Nested dictionary probably: {user: {question: answer}} ***
-        :param quiz: list of questions for the user to answer.
+        Take in a Quiz object and allow the user to answer the prompts with the given choices.
+        *** Will have to modify the return dictionary to allow for multiple prompts. ***
+        *** Nested dictionary probably: {user: {prompt: answer}} ***
+        :param quiz: list of prompts for the user to answer.
         :return: dictionary with the user as the key and answers as the values.
         """
         user_answers = {}
+        p_c = quiz.prompts_choices
+        prompts = quiz.prompts_choices.keys()
+        choices = quiz.prompts_choices.values()
 
-        answers = input(quiz[0])
-        list_of_answers = answers.split()
-        user_answers[self] = list_of_answers
+        # initialize empty dict in order to just be able to update later.
+        user_answers[self] = {}
+
+        for key in p_c:
+            # Print the prompt
+            print(key)
+            # Print the choices
+            print(p_c[key])
+            answers = input('Type in your choices separating each choice by a single space: ')
+            list_of_answers = answers.split()
+            user_answers[self].update({key: list_of_answers})
 
         return user_answers
 
