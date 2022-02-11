@@ -10,7 +10,7 @@ class Party:
         self.host = host
         self.party_members = [host]
 
-    def distribute_quiz(self, quiz):
+    def distribute_quiz(self, quiz) -> dict[str:list]:
         """
         Allow each user in the party to take the quiz and then return the quiz with each users's answers.
         :param quiz: Quiz with prompts to determine which restaurant to suggest.

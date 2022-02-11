@@ -21,10 +21,10 @@ def main():
     price = input('What price range are you looking for? (1-4): ')
 
     # Query Parameters
-    PARAMETERS = {'term': {food},
+    PARAMETERS = {'term': food,
                   'radius': f'{distance * 1600}',
-                  'location': {city},
-                  'price': {price}
+                  'location': city,
+                  'price': price
                   }
 
     # Making request to Yelp API
@@ -36,6 +36,8 @@ def main():
         name = business_data['businesses'][i]['name']
         address = business_data['businesses'][i]['location']['address1']
         print(f'{name}: {address}')
+
+    #print(business_data)
 
 if __name__ == '__main__':
     main()
