@@ -9,7 +9,7 @@ from typing import Dict, Union, Set, Any
 import requests
 
 class Yelp:
-    def __init__(self, party_data: dict[str: list], api_key: str, endpoint: str):
+    def __init__(self, party_data, api_key, endpoint):
         self.party_data = party_data
         self.api_key = api_key
         self.endpoint = endpoint
@@ -20,8 +20,8 @@ class Yelp:
         ## GONNA HAVE TO MAKE A QUIZ WHOSE QUESTIONS IN ORDER ARE
         # 1. Food Type #2. Radius, #3. Location #4. Price
         parameters = {'term': self.party_data['Food Type?'][0],
-                      'radius': self.party_data['Distance (miles)?'][0],
-                      'location': ['Location?'][0],
+                      'radius': str(int(self.party_data['Distance (miles)?'][0]) * 1600),
+                      'location': self.party_data['Location?'][0],
                       'price': self.party_data['Price?'][0]
                       }
 
@@ -31,7 +31,7 @@ class Yelp:
         return response.json()
 
     @staticmethod
-    def print_data(business_data: dict):
+    def print_data(business_data):
         for i, key in enumerate(business_data['businesses']):
             name = business_data['businesses'][i]['name']
             address = business_data['businesses'][i]['location']['address1']
