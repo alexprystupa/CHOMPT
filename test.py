@@ -28,12 +28,8 @@ def main():
                   ['Chinese', 'Mexican', 'Italian', 'Thai', 'Mediterranean', 'Middle Eastern', 'American', 'Pub Grub'],
                   [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
     '''
-
-    q = quiz.Quiz({"Food Type?": ['Chinese', 'Mexican', 'Italian', 'Thai',
-                                  'Mediterranean', 'Middle Eastern', 'American'],
-                   'Distance (miles)?': ['1-5'],
-                   'Location?': ['Enter city name'],
-                   'Price?': ['1-4']})
+    # Initializing Quiz Object to Distribute to Party
+    q = quiz.Quiz()
 
     party_decisions = lit_squad.distribute_quiz(q)
     #prompts = [*party_decisions]

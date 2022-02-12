@@ -1,10 +1,15 @@
 from collections import Counter
 
+
 # This class represents a quiz of prompts that will be given to each user in order to reach a restaurant decision.
 # STORE THE NUMBER OF OCCURRENCES FOR EACH ANSWER IN HEREEEEEEE
 class Quiz:
-    def __init__(self, prompts_choices):
-        self.prompts_choices = prompts_choices
+    def __init__(self):
+        self.prompts_choices = {"Food Type?": ['Chinese', 'Mexican', 'Italian', 'Thai',
+                                               'Mediterranean', 'Middle Eastern', 'American'],
+                                'Distance (miles)?': ['1-5'],
+                                'Location?': ['Enter city name'],
+                                'Price?': ['1-4']}
 
     def calculate(self, answers):
         """
