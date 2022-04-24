@@ -4,15 +4,16 @@ import { View, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import axios from "axios";
 import { useState } from 'react';
+import { MapScreen } from './mapScreen'
 
 
-const SocialScreen = (props) => {
+const SocialScreen = () => {
     const [foodList, setFoodList] = useState([]);
     return(
         <View style = {styles.container}>
           <Text style={{ fontSize: 25 }}> Form Quiz Section </Text>
         <Formik
-          initialValues={{food: '',distance: '',location: '',price: '' }}
+          initialValues={{food: '',distance: '',latitude: '', longitude: '',price: '' }}
           onSubmit={(values) => {
             console.log(values);
             axios.post('http://127.0.0.1:8000/quiz-form', values
@@ -32,20 +33,6 @@ const SocialScreen = (props) => {
               onChangeText={handleChange('food')}
               onBlur={handleBlur('food')}
               value={values.food}
-            />
-            <TextInput
-              style = {styles.formInput}
-              placeholder = "Distance (1-10)"
-              onChangeText={handleChange('distance')}
-              onBlur={handleBlur('distance')}
-              value={values.distance}
-            />
-            <TextInput
-              style = {styles.formInput}
-              placeholder = "City (Boston, NYC, etc.)"
-              onChangeText={handleChange('location')}
-              onBlur={handleBlur('location')}
-              value={values.location}
             />
             <TextInput
               placeholder = "Price (1-4)"
@@ -69,7 +56,7 @@ const SocialScreen = (props) => {
           </View>
         )}
       </Formik>
-        </View>
+      </View>
     )
 }
 

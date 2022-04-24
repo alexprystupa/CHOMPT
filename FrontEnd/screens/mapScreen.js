@@ -4,13 +4,15 @@ import Slider from '@react-native-community/slider';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import axios from 'axios';
 
-const MapScreen = ({ navigation }) => {
-  const [pin, setPin] = useState({
-    latitude: 40.758896, 
-    longitude: -73.985130,
-  })
-  const [rad, setRad] = useState(500)
+const MapScreen = (props) => {
+  // const [pin, setPin] = useState({
+  //   latitude: 40.758896, 
+  //   longitude: -73.985130,
+  // });
+  console.log(props.pin)
+  const [rad, setRad] = useState(500);
   return (
     <View style={styles.container}>
       <MapView style={styles.map} 
@@ -32,7 +34,7 @@ const MapScreen = ({ navigation }) => {
             console.log("Start drag", e.nativeEvent.coordinate)
           }}
           onDragEnd={(e) => {
-            setPin({
+            props.setPin({
               latitude: e.nativeEvent.coordinate.latitude,
               longitude: e.nativeEvent.coordinate.longitude
             })
@@ -40,17 +42,20 @@ const MapScreen = ({ navigation }) => {
           }}
         >
           <Callout
-            // Use this onPress to save state and go to  rest of quiz
+            // Use this onPress to save state and go to rest of quiz
             onPress={() => {
-              console.log("TESTING")
-              navigation.navigate("SocialScreen")
+              console.log(props.pin);
+              axios.post('http://127.0.0.1:8000/quiz-map', props.pin
+              ).then((response) => console.log(response)
+              ).catch((error) => console.log(error))
+              props.navigation.navigate("SocialScreen")
             }}
           >
             <Text> CLICK TO SAVE </Text>
           </Callout>
         </Marker>
         <Circle
-          center={pin}
+          center={props.pin}
           radius={rad}
         />
       </MapView>
@@ -100,6 +105,5 @@ const styles = StyleSheet.create({
     height:40
   }
 });
-
 
 export default MapScreen;

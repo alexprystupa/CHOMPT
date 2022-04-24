@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ProfileScreen from './screens/profileScreen'
 import MapScreen from './screens/mapScreen';
 import SocialScreen from './screens/socialScreen';
@@ -9,6 +9,10 @@ import Tabs from './components/Tabs'
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  const [pin, setPin] = useState({
+    latitude: 40.758896, 
+    longitude: -73.985130,
+  });
   return(
     <NavigationContainer>
       <Stack.Navigator
@@ -22,8 +26,10 @@ const App = () => {
         />
         <Stack.Screen
           name = "MapScreen"
-          component = { MapScreen, Tabs }
-        />
+          //component = { MapScreen, Tabs }
+        >
+        {(props) => <MapScreen {...props} pin={pin} setPin={setPin}/>}
+        </Stack.Screen>
         <Stack.Screen
         name = "SocialScreen"
         component = { SocialScreen }
