@@ -47,7 +47,7 @@ const SocialScreen = ({ pin, rad }) => {
               onPress={handleSubmit} >
               <Text style={styles.buttonText}> Submit </Text>
             </TouchableOpacity>
-            <ScrollView style={{flex:0.5}}>
+            <ScrollView style={{flex:0.5, marginBottom: 90}}>
             {
               foodList.length >= 1 ? foodList.map((food, idx) => {
                 return <View style = {styles.food} key = {idx}>
