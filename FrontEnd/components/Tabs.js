@@ -1,14 +1,21 @@
-import React from 'react'
-import {View, Text, StyleSheet, Image} from 'react-native'
+import React, { useState } from 'react'
+import {View, Text, StyleSheet, Image, Button} from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import HomeScreen from '../screens/profileScreen'
 import QuizScreen from '../screens/mapScreen'
 import SocialScreen from '../screens/socialScreen'
+import { useNavigation } from '@react-navigation/native'
 
 const Tab = createBottomTabNavigator();
 
-const Tabs = () => {
+const Tabs = ({ navigation }) => {
+    const [pin, setPin] = useState({
+        latitude: 40.758896, 
+        longitude: -73.985130,
+    });
+    const [rad, setRad] = useState(500);
+    //const navigation = useNavigation();
     return (
         <Tab.Navigator
             screenOptions = {{
@@ -38,7 +45,7 @@ const Tabs = () => {
                     />
                 ),
             }}/>
-            <Tab.Screen name = "Map Quiz Section" component = { QuizScreen } options = {{
+            <Tab.Screen name = "Map Quiz Section" options = {{
                 tabBarIcon: ({focused}) => (
                     <Image 
                         source = {require('../assets/icons/bread.png')}
@@ -50,8 +57,19 @@ const Tabs = () => {
                         }}
                     />
                 ),
-            }}/>
-            <Tab.Screen name = "Social" component = { SocialScreen } options = {{
+                headerRight: () => {
+                    return(
+                    <Button
+                      onPress={() => navigation.navigate('SocialScreen', { screen: 'Social' })}
+                      title="Next"
+                      color="black"
+                    />
+                    )
+                },
+            }}
+            children={() => <QuizScreen pin={pin} setPin={setPin} rad={rad} setRad={setRad}/>}
+            />
+            <Tab.Screen name = "Social" options = {{
                 tabBarIcon: ({focused}) => (
                     <Image 
                         source = {require('../assets/icons/hotdog.png')}
@@ -63,7 +81,18 @@ const Tabs = () => {
                         }}
                     />
                 ),
-            }}/>
+                headerLeft: () => {
+                    return(
+                    <Button
+                      onPress={() => navigation.navigate('MapScreen', { screen: "Map Quiz Section" })}
+                      title="Back"
+                      color="black"
+                    />
+                    )
+                },
+            }}
+            children={() => <SocialScreen pin={pin} rad={rad}/>}
+            />
         </Tab.Navigator>
     );
 }

@@ -1,19 +1,20 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { View, StyleSheet, TouchableOpacity, Text} from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, ScrollView} from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import axios from "axios";
 import { useState } from 'react';
 import { MapScreen } from './mapScreen'
 
 
-const SocialScreen = () => {
+const SocialScreen = ({ pin, rad }) => {
     const [foodList, setFoodList] = useState([]);
     return(
         <View style = {styles.container}>
           <Text style={{ fontSize: 25 }}> Form Quiz Section </Text>
         <Formik
-          initialValues={{food: '',distance: '',latitude: '', longitude: '',price: '' }}
+          initialValues={{food: '', distance: rad, latitude: pin.latitude, 
+          longitude: pin.longitude , price: '' }}
           onSubmit={(values) => {
             console.log(values);
             axios.post('http://127.0.0.1:8000/quiz-form', values
@@ -26,7 +27,7 @@ const SocialScreen = () => {
           }}
         >
         {({ handleChange, handleBlur, handleSubmit, values }) => (
-          <View>
+          <View style={{flex: 1}}>
             <TextInput
               style = {styles.formInput}
               placeholder = "Food (Chinese, American, etc.)"
@@ -46,13 +47,15 @@ const SocialScreen = () => {
               onPress={handleSubmit} >
               <Text style={styles.buttonText}> Submit </Text>
             </TouchableOpacity>
+            <ScrollView style={{flex:0.5}}>
             {
               foodList.length >= 1 ? foodList.map((food, idx) => {
-                return <View style = {styles.food}>
-                        <Text style = {styles.buttonText} key = {idx}>{food.name} : {food.address}</Text>
+                return <View style = {styles.food} key = {idx}>
+                        <Text style = {styles.foodText} >{food.name} : {food.address}</Text>
                       </View>
               }): <Text></Text>
             }
+            </ScrollView>
           </View>
         )}
       </Formik>
@@ -92,14 +95,21 @@ const styles = StyleSheet.create({
       color: '#ffffff',
       alignSelf: 'center'
     },
+    foodText: {
+      fontSize: 18,
+      color: 'darkslateblue',
+      alignSelf: 'center'
+    },
     food: {
       alignItems: 'center',
       justifyContent: 'center',
       paddingVertical: 12,
-      paddingHorizontal: 32,
-      borderRadius: 4,
-      elevation: 3,
-      backgroundColor: 'darkslateblue',
+      paddingHorizontal: 10,
+      borderRadius: 0,
+      borderColor: 'black',
+      borderWidth: 2,
+      elevation: 30,
+      backgroundColor: '#ffffff',
     },
   })
 
