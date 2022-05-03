@@ -11,6 +11,7 @@ API_KEY = 'AQuSIIDGMQZ4l7SBHegjnoggcHOoh_mImR8Zatvg0a14fXNo1BK3mhKnPGK9t0wc-' \
 ENDPOINT = 'https://api.yelp.com/v3/businesses/search'
 HEADERS = {'Authorization': f'bearer {API_KEY}'}
 
+
 # Define parameters
 def main():
 

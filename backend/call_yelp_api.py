@@ -10,12 +10,13 @@ class YelpAPI:
 
 
 class FoodRequest(YelpAPI):
-    def __init__(self, food, radius, location, price):
+    def __init__(self, food, radius, latitude, longitude, price):
         super().__init__()
         self.params = {
             'term': food,
-            'radius': f'{int(radius) * 1650}',
-            'location': location,
+            'radius': radius,
+            'latitude': latitude,
+            'longitude': longitude,
             'price': int(price)
         }
 

@@ -11,9 +11,9 @@ class Quiz:
                                 'Location?': ['Enter city name'],
                                 'Price?': ['1-4']}
 
-    def calculate(self, answers):
+    @staticmethod
+    def calculate(answers):
         """
-
         :param answers: Dictionary of all answers for each prompt - {prompt: [answers]}
         :return: Dictionary with the final decisions for each prompt.
         """

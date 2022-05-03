@@ -9,7 +9,8 @@ from call_yelp_api import FoodRequest
 class FoodQuiz(BaseModel):
     food: str
     distance: str
-    location: str
+    latitude: float
+    longitude: float
     price: str
 
 
@@ -24,6 +25,11 @@ def read_root():
 
 @app.post("/quiz-form")
 async def read_food(foodQuiz: FoodQuiz):
-    food = FoodRequest(foodQuiz.food, foodQuiz.distance, foodQuiz.location, foodQuiz.price)
+    food = FoodRequest(foodQuiz.food, foodQuiz.distance, foodQuiz.latitude, foodQuiz.longitude, foodQuiz.price)
     return food.post_data()
 
+
+# @app.post("/quiz-map")
+# async def read_map(mapQuiz: MapQuiz):
+#     print(mapQuiz.latitude)
+#     print(mapQuiz.longitude)

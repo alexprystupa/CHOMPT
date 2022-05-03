@@ -1,4 +1,8 @@
 import requests
 
-response = requests.post("http://127.0.0.1:8000/quiz-form")
-print(response)
+import call_yelp_api
+
+test = call_yelp_api.FoodRequest("Chinese", "1", "40.758896", "-73.985130", "1")
+
+print(test.post_data())
+
