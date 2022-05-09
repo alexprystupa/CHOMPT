@@ -1,21 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MapView, { Marker, Callout, Circle, CalloutSubview } from 'react-native-maps';
 import Slider from '@react-native-community/slider';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import axios from 'axios';
-import { SocialScreen } from './socialScreen'
+import * as Location from 'expo-location';
 
 const MapScreen = ({ navigation, pin, setPin, rad, setRad }) => {
-  //const navigation = useNavigation();
-  // const [pin, setPin] = useState({
-  //   latitude: 40.758896, 
-  //   longitude: -73.985130,
-  // });
+  //console.log(pin)
   navigation = useNavigation();
-  console.log(pin)
-  //const [rad, setRad] = useState(500);
   return (
     <View style={styles.container}>
       <MapView style={styles.map} 
@@ -67,7 +61,7 @@ const MapScreen = ({ navigation, pin, setPin, rad, setRad }) => {
           <Slider
             style={styles.slider}
             minimumValue={500}
-            maximumValue={2000}
+            maximumValue={10000}
             value={1250}
             onValueChange={(value) => setRad(value)}
           />

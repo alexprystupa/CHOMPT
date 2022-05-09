@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import ProfileScreen from './screens/profileScreen'
-import MapScreen from './screens/mapScreen';
-import SocialScreen from './screens/socialScreen';
-import { Button } from 'react-native';
+import LoginScreen from './screens/loginScreen'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Tabs from './components/Tabs'
@@ -10,10 +7,6 @@ import Tabs from './components/Tabs'
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  // const [pin, setPin] = useState({
-  //   latitude: 40.758896, 
-  //   longitude: -73.985130,
-  // });
   return(
     <NavigationContainer>
       <Stack.Navigator
@@ -22,15 +15,13 @@ const App = () => {
         }}
       >
         <Stack.Screen
-          name = "ProfileScreen"
-          component = { Tabs }
+          name = "LoginScreen"
+          component = { LoginScreen }
         />
         <Stack.Screen
         name = "SocialScreen"
         component = { Tabs }
-        options={{title: "Form Quiz Section"
-        //, presentation: "modal"
-          }}
+        options={{title: "Form Quiz Section"}}
         />
         <Stack.Screen
         name = "MapScreen"

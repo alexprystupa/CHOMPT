@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {View, Text, StyleSheet, Image, Button} from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-
-import HomeScreen from '../screens/profileScreen'
+import HomeScreen from '../screens/loginScreen'
 import QuizScreen from '../screens/mapScreen'
 import SocialScreen from '../screens/socialScreen'
 import { useNavigation } from '@react-navigation/native'
+import * as Location from 'expo-location';
 
 const Tab = createBottomTabNavigator();
 
@@ -15,7 +15,35 @@ const Tabs = ({ navigation }) => {
         longitude: -73.985130,
     });
     const [rad, setRad] = useState(500);
-    //const navigation = useNavigation();
+
+    //const [location, setLocation] = useState(null);
+    //const [errorMsg, setErrorMsg] = useState(null);
+  
+    // useEffect(() => {
+    //   (async () => {
+    //     let { status } = await Location.requestForegroundPermissionsAsync();
+    //     if (status !== 'granted') {
+    //       setErrorMsg('Permission to access location was denied');
+    //       return;
+    //     }
+  
+    //     let pin = await Location.getCurrentPositionAsync({});
+    //     setPin({
+    //         latitude: pin.coords.latitude,
+    //         longitude: pin.coords.longitude,
+    //     });
+    //   })();
+    // }, []);
+  
+    // let text = 'Waiting..';
+    // if (errorMsg) {
+    //   text = errorMsg;
+    // } else if (pin) {
+    //   //console.log(pin.coords.latitude);
+    //   //console.log(pin.coords.longitude);
+    //   console.log(pin)
+    // }
+
     return (
         <Tab.Navigator
             screenOptions = {{
@@ -32,19 +60,6 @@ const Tabs = ({ navigation }) => {
                 }
             }}
         >
-            <Tab.Screen name = "Profile" component = { HomeScreen } options = {{
-                tabBarIcon: ({focused}) => (
-                    <Image 
-                        source = {require('../assets/icons/home.png')}
-                        resizeMode = 'contain'
-                        style = {{
-                            width: 60,
-                            height: 60,
-                            tintColor: focused ? '#e32f45': '#748c94'
-                        }}
-                    />
-                ),
-            }}/>
             <Tab.Screen name = "Map Quiz Section" options = {{
                 tabBarIcon: ({focused}) => (
                     <Image 

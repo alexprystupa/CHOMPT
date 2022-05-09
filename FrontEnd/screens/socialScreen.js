@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { View, StyleSheet, TouchableOpacity, Text, ScrollView} from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, ScrollView, Image} from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import axios from "axios";
 import { useState } from 'react';
@@ -51,7 +51,12 @@ const SocialScreen = ({ pin, rad }) => {
             {
               foodList.length >= 1 ? foodList.map((food, idx) => {
                 return <View style = {styles.food} key = {idx}>
-                        <Text style = {styles.foodText} >{food.name} : {food.address}</Text>
+                        <Image source={{uri: food.image_url}}
+                                style={{width: 60, height: 60}} />
+                        <View style = {styles.foodTextView}>
+                          <Text style = {styles.foodText} > {food.name} </Text>
+                          <Text style = {styles.foodText} > {food.address} </Text>
+                        </View>
                       </View>
               }): <Text></Text>
             }
@@ -102,7 +107,9 @@ const styles = StyleSheet.create({
     },
     food: {
       alignItems: 'center',
-      justifyContent: 'center',
+      //justifyContent: 'center',
+      flex: 1,
+      flexDirection: 'row',
       paddingVertical: 12,
       paddingHorizontal: 10,
       borderRadius: 0,
@@ -111,6 +118,11 @@ const styles = StyleSheet.create({
       elevation: 30,
       backgroundColor: '#ffffff',
     },
+    foodTextView: {
+      flexDirection: 'column',
+      alignContent: 'center',
+      justifyContent: 'center',
+    }
   })
 
 
