@@ -13,19 +13,24 @@ const MapScreen = ({ navigation, pin, setPin, rad, setRad }) => {
   return (
     <View style={styles.container}>
       <MapView style={styles.map} 
-        initialRegion = {{
-          latitude: 40.758896, 
-          longitude: -73.985130,
+        region = {{
+          latitude: pin.latitude,
+          longitude: pin.longitude,
           latitudeDelta: 0.05,
-          longitudeDelta: 0.03
+          longitudeDelta: 0.03,
         }}
         provider = "google"
+        showsUserLocation = {true}
+        onUserLocationChange = {(e) => {
+          console.log("Change location", e.nativeEvent.coordinate);
+          setPin({
+            latitude: e.nativeEvent.coordinate.latitude,
+            longitude: e.nativeEvent.coordinate.longitude
+          });
+        }}
       > 
         <Marker
-          coordinate={{
-            latitude: 40.758896, 
-            longitude: -73.985130,
-          }}
+          coordinate={pin}
           draggable={true}
           onDragStart={(e) => {
             console.log("Start drag", e.nativeEvent.coordinate)
@@ -34,23 +39,10 @@ const MapScreen = ({ navigation, pin, setPin, rad, setRad }) => {
             setPin({
               latitude: e.nativeEvent.coordinate.latitude,
               longitude: e.nativeEvent.coordinate.longitude
-            })
+            });
             console.log("Stop drag", e.nativeEvent.coordinate)
           }}
         >
-          <Callout
-            // Use this onPress to save state and go to rest of quiz
-            onPress={() => {
-              console.log(pin);
-              axios.post('http://127.0.0.1:8000/quiz-map', pin
-              ).then((response) => console.log(response)
-              ).catch((error) => console.log(error))
-              navigation.navigate('SocialScreen', { screen: 'Social' })
-              //navigation.goBack();
-            }}
-          >
-            <Text> CLICK TO SAVE </Text>
-          </Callout>
         </Marker>
         <Circle
           center={pin}

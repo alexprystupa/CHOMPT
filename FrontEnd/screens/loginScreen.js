@@ -33,10 +33,12 @@ const LoginScreen = ({ navigation }) => {
         <Text style={styles.forgotButton}>Forgot Password?</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.loginBtn}>
+      <TouchableOpacity 
+        style={styles.loginBtn} 
+        onPress={() => navigation.navigate("MapScreen")}
+      >
         <Text 
           style={styles.loginText}
-          onPress={() => navigation.navigate("MapScreen")}
         >LOGIN
         </Text>
       </TouchableOpacity>

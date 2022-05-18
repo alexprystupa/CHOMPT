@@ -13,10 +13,12 @@ const SocialScreen = ({ pin, rad }) => {
         <View style = {styles.container}>
           <Text style={{ fontSize: 25 }}> Form Quiz Section </Text>
         <Formik
+          enableReinitialize = {true}
           initialValues={{food: '', distance: rad, latitude: pin.latitude, 
           longitude: pin.longitude , price: '' }}
           onSubmit={(values) => {
-            console.log(values);
+            //console.log(values);
+            console.log(pin);
             axios.post('http://127.0.0.1:8000/quiz-form', values
             ).then(function (response) {
               console.log(response.data);

@@ -9,40 +9,30 @@ import * as Location from 'expo-location';
 
 const Tab = createBottomTabNavigator();
 
+// I think there is an error where it is searching for food near user location not pin
 const Tabs = ({ navigation }) => {
     const [pin, setPin] = useState({
         latitude: 40.758896, 
         longitude: -73.985130,
     });
     const [rad, setRad] = useState(500);
+  
+    useEffect(() => {
+      (async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          console.log('Permission to access location was denied');
+          return;
+        }
+  
+        let location = await Location.getCurrentPositionAsync({});
 
-    //const [location, setLocation] = useState(null);
-    //const [errorMsg, setErrorMsg] = useState(null);
-  
-    // useEffect(() => {
-    //   (async () => {
-    //     let { status } = await Location.requestForegroundPermissionsAsync();
-    //     if (status !== 'granted') {
-    //       setErrorMsg('Permission to access location was denied');
-    //       return;
-    //     }
-  
-    //     let pin = await Location.getCurrentPositionAsync({});
-    //     setPin({
-    //         latitude: pin.coords.latitude,
-    //         longitude: pin.coords.longitude,
-    //     });
-    //   })();
-    // }, []);
-  
-    // let text = 'Waiting..';
-    // if (errorMsg) {
-    //   text = errorMsg;
-    // } else if (pin) {
-    //   //console.log(pin.coords.latitude);
-    //   //console.log(pin.coords.longitude);
-    //   console.log(pin)
-    // }
+        setPin({
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+        });
+      })();
+    }, []);
 
     return (
         <Tab.Navigator
